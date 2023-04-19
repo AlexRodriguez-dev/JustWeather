@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+    	<meta name="description" content="Your description goes here">
+    	<meta name="keywords" content="one, two, three">
+
+		<title>WeatherApp</title>
+
+		<!-- external CSS link -->
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	
+	<body>
+		<section class="top-container">
+		
+			<div id="locationinputstyle">
+			<h2 class="top-section" >Location: <input type="text" style="text-align:center;" placeholder="enter city name" spellcheck="false"><button>Submit</button></h2>
+			</div>
+			<h1 class="top-section">JustWeather</h1>
+			<h2 class="top-section"><a href="https://github.com/AlexRodriguez-dev/JustWeather">About</a></h2>
+			
+
+		
+		</section>
+
+		<div class="weather-title"id="city">
+			<h3>_</h3>
+		</div>
+
+
+		<div class="weather-container">
+		  <div class="weather-component">
+			<h3 class="weather-title">Temperature</h3>
+			<p class="weather-data" id="temp">--°C</p>
+		  </div>
+		  <div class="weather-component">
+			<h3 class="weather-title">High/Low</h3>
+			<p class="weather-data" id="high-low">--°C / --°C</p>
+		  </div>
+		  <div class="weather-component">
+			<h3 class="weather-title">Humidity</h3>
+			<p class="weather-data" id="humidity">--%</p>
+		  </div>
+		  <div class="weather-component">
+			<h3 class="weather-title">Rain?</h3>
+			<p class="weather-data" id="rain">--%</p>
+		  </div>
+		  <div class="weather-component">
+			<h3 class="weather-title">Wind</h3>
+			<p class="weather-data" id="wind">--m/s</p>
+		  </div>
+		  <div class="weather-component">
+			<h3 class="weather-title">Sky</h3>
+			<p class="weather-data" id="sky">--</p>
+		  </div>
+		</div>
+
+		
+	  
+		<script type="application/json"src="script.js"></script>
+		<script>
+					const apiKey = 'c556ea65c656d6644071d27f79b20b88';
+					const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+					const searchBox = document.querySelector("#locationinputstyle input")
+					const searchBtn = document.querySelector("#locationinputstyle button")
+					 
+
+
+					async function checkWeather(city){
+  						try{
+    						const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    						const data = await response.json();
+							
+   				 			console.log(data);
+
+							document.querySelector('#city').innerHTML = data.name;
+							document.querySelector('#temp').innerHTML = data.main.temp + "°C";
+							document.querySelector('#humidity').innerHTML = data.main.humidity + "%";
+							document.querySelector('#wind').innerHTML = data.wind.speed + "m/s";
+							document.querySelector('#sky').innerHTML = data.weather[0].main;
+							document.querySelector('#rain').innerHTML = data.weather[0].description;
+							document.querySelector('#high-low').innerHTML = data.main.temp_max + "°C / " + data.main.temp_min +"°C";
+						}
+
+						catch (error) {
+						document.querySelector('#city').innerHTML = "_"
+						alert("Cannnot find City, Try Again.")
+  						console.error(error);
+						}
+
+
+
+
+
+
+						
+							
+ 				 		
+					}
+
+				searchBtn.addEventListener("click", ()=> {
+					checkWeather(searchBox.value)
+				});
+
+				searchBox.addEventListener("keydown", (event)=> {
+  					if (event.keyCode === 13) {
+    					checkWeather(searchBox.value)
+					}
+				});
+
+		</script>
+
+	</body>
+
+	<footer>
+        <span>Created By:</span>
+        <a href="alex.rodriguez.wdev@gmail.com"><b>alex.rodriguez.wdev@gmail.com</b></a>
+
+    </footer>
+</html>
